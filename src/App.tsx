@@ -1,95 +1,136 @@
-import React, { useState, useEffect } from 'react';
-import { FaMicrophone, FaCamera, FaRegSmile } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import './App.css'; // Import custom styles
+import React, { useEffect, useState } from 'react';
+import WebSocketService from './services/WebSocketService';
+import { FaSmile, FaFrown, FaAngry, FaSurprise, FaCamera, FaMicrophone } from 'react-icons/fa';
+import Waveform from './components/Waveform';
+import './App.css';
 
 const App: React.FC = () => {
     const [emotion, setEmotion] = useState<string>('Neutral');
-    const [audioStatus, setAudioStatus] = useState<boolean>(false);
+    const [emotionHistory, setEmotionHistory] = useState<string[]>([]);
     const [videoStatus, setVideoStatus] = useState<boolean>(false);
-    const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+    const [audioStatus, setAudioStatus] = useState<boolean>(false);
+    const [jetsonConnected, setJetsonConnected] = useState<boolean>(false);
+    const [showPopup, setShowPopup] = useState<boolean>(false);
 
     useEffect(() => {
-        if (videoStatus) {
-            startVideoStream();
+        if (audioStatus) {
+            WebSocketService.connect('ws://localhost:8080', (message: string) => {
+                setEmotion(message);
+                setEmotionHistory((prev) => [...prev, message]);
+            });
         } else {
-            stopVideoStream();
+            WebSocketService.disconnect();
         }
-    }, [videoStatus]);
+    }, [audioStatus]);
 
-    const startVideoStream = async () => {
+    const startVideoStream = async (deviceId: string | undefined = undefined) => {
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            setCameraStream(stream);
+            const constraints: MediaStreamConstraints = { video: true };
+            if (deviceId) {
+                constraints.video = { deviceId: { exact: deviceId } };
+            }
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
             const videoElement = document.getElementById('videoFeed') as HTMLVideoElement;
             if (videoElement) {
                 videoElement.srcObject = stream;
             }
         } catch (err) {
-            console.error('Failed to access camera', err);
+            console.error('Failed to access camera:', err);
         }
     };
 
-    const stopVideoStream = () => {
-        if (cameraStream) {
-            cameraStream.getTracks().forEach((track) => track.stop());
-        }
-        setCameraStream(null);
-    };
-
-    const handleAudioToggle = () => {
-        setAudioStatus(!audioStatus);
-        if (!audioStatus) {
-            console.log('Audio capture started');
+    const handleJetsonConnect = () => {
+        if (jetsonConnected) {
+            startVideoStream(); // Use local camera
         } else {
-            console.log('Audio capture stopped');
+            setShowPopup(true);
         }
     };
 
-    const handleEmotionDetection = () => {
-        const emotions = ['Happy', 'Sad', 'Angry', 'Surprised', 'Neutral'];
-        const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-        setEmotion(randomEmotion);
+    const connectJetsonCamera = async () => {
+        setJetsonConnected(true);
+        setShowPopup(false);
+        // Simulate switching to a different hardware camera (Jetson AI camera)
+        const jetsonDeviceId = 'jetson-camera-id'; // Replace with actual hardware ID
+        startVideoStream(jetsonDeviceId);
+    };
+
+    const getEmotionIcon = () => {
+        switch (emotion) {
+            case 'Happy': return <FaSmile className="emotion-icon text-yellow-500" />;
+            case 'Sad': return <FaFrown className="emotion-icon text-blue-500" />;
+            case 'Angry': return <FaAngry className="emotion-icon text-red-500" />;
+            case 'Surprised': return <FaSurprise className="emotion-icon text-orange-500" />;
+            default: return <FaSmile className="emotion-icon text-gray-500" />;
+        }
     };
 
     return (
         <div className="container">
-            <div className="card">
+            <div className="header">
                 <h1>Audio-Visual Emotion Recognition System</h1>
+                <div className={`status ${audioStatus ? 'connected' : 'disconnected'}`}>
+                    {audioStatus ? 'Connected to Audio' : 'Audio Disabled'}
+                </div>
+            </div>
 
-                {/* Video Feed Section */}
+            <div className="card">
+                {/* Video Section */}
                 <div className="video-container">
-                    <motion.div className={`video-wrapper ${videoStatus ? 'active' : ''}`}>
-                        {videoStatus ? (
-                            <video id="videoFeed" autoPlay className="video-feed" />
-                        ) : (
-                            <div className="no-video">No Video Feed</div>
-                        )}
-                    </motion.div>
+                    {videoStatus ? (
+                        <video id="videoFeed" autoPlay muted className="video-feed" />
+                    ) : (
+                        <div className="no-video">No Video Feed Available</div>
+                    )}
                 </div>
 
-                {/* Detected Emotion Display */}
+                {/* Detected Emotion */}
                 <div className="emotion-display">
-                    <FaRegSmile className="emotion-icon" />
+                    {getEmotionIcon()}
                     <p>Detected Emotion: <span className="emotion-text">{emotion}</span></p>
                 </div>
 
-                {/* Action Buttons */}
+                {/* Audio Waveform */}
+                <div className="waveform-container">
+                    <Waveform active={audioStatus} />
+                </div>
+
+                {/* Buttons to Control Video, Audio, and Jetson */}
                 <div className="button-group">
                     <button onClick={() => setVideoStatus(!videoStatus)}>
-                        <FaCamera className="button-icon" />
-                        {videoStatus ? 'Stop Video' : 'Start Video'}
+                        <FaCamera /> {videoStatus ? 'Stop Video' : 'Start Video'}
                     </button>
-
-                    <button onClick={handleAudioToggle}>
-                        <FaMicrophone className="button-icon" />
-                        {audioStatus ? 'Stop Audio' : 'Start Audio'}
+                    <button onClick={() => setAudioStatus(!audioStatus)}>
+                        <FaMicrophone /> {audioStatus ? 'Stop Audio' : 'Start Audio'}
+                    </button>
+                    <button onClick={handleJetsonConnect}>
+                        {jetsonConnected ? 'Switch to Local Camera' : 'Connect to Jetson AI'}
                     </button>
                 </div>
 
-                <button className="detect-button" onClick={handleEmotionDetection}>
-                    Detect Emotion
-                </button>
+                {/* Popup Modal */}
+                {showPopup && (
+                    <div className="modal-overlay">
+                        <div className="modal">
+                            <h2>Please Connect to Jetson AI</h2>
+                            <p>The system needs to establish a connection with Jetson AI to access its camera.</p>
+                            <div className="modal-buttons">
+                                <button onClick={connectJetsonCamera}>Connect</button>
+                                <button onClick={() => setShowPopup(false)}>Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Emotion History */}
+                <div className="emotion-history">
+                    <h3>Emotion History</h3>
+                    <ul>
+                        {emotionHistory.map((e, index) => (
+                            <li key={index}>{index + 1}. {e}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );
