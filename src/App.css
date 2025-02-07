@@ -2,67 +2,92 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
-}
-
-.container {
+  color: #333; /* Ensure text visibility */
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .card {
   background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Header Section */
+.header {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 500px;
-  text-align: center;
-}
-
-h1 {
-  font-size: 24px;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #d9534f;
+  color: white;
+}
+
+.status.connected {
+  background-color: #28a745;
+}
+
+/* Video Section */
 .video-container {
   margin-bottom: 20px;
 }
 
-.video-wrapper {
+.video-feed {
   width: 100%;
   height: 300px;
   border: 2px solid #ccc;
   border-radius: 8px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: black;
-}
-
-.video-wrapper.active video {
-  display: block;
-}
-
-.video-feed {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
 .no-video {
+  padding: 50px;
   color: white;
   font-size: 18px;
+  background-color: black;
+  border-radius: 8px;
 }
 
+/* Detected Emotion Section */
 .emotion-display {
   margin-bottom: 20px;
 }
 
 .emotion-icon {
   font-size: 48px;
-  color: #ffcc00;
 }
 
 .emotion-text {
@@ -70,10 +95,11 @@ h1 {
   color: #007bff;
 }
 
+/* Buttons Section */
 .button-group {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 15px;
   margin-bottom: 20px;
 }
 
@@ -88,17 +114,146 @@ button {
   display: flex;
   align-items: center;
   gap: 5px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   background-color: #0056b3;
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.detect-button {
+/* Waveform Section */
+.waveform-container {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   width: 100%;
-  background-color: #28a745;
 }
 
-.detect-button:hover {
-  background-color: #218838;
+/* Emotion History Section */
+.emotion-history {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.emotion-history h3 {
+  font-size: 22px;
+  color: #007bff;
+}
+
+.emotion-history ul {
+  max-height: 150px;
+  overflow-y: auto;
+  padding: 0;
+  list-style-type: none;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.emotion-history li {
+  padding: 10px;
+  font-size: 18px;
+  border-bottom: 1px solid #ddd;
+  color: #333;
+}
+
+.emotion-history li:last-child {
+  border-bottom: none;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+/* Popup Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.modal p {
+  margin-bottom: 20px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-buttons button:first-child {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-buttons button:first-child:hover {
+  background-color: #0056b3;
+}
+
+.modal-buttons button:last-child {
+  background-color: #d9534f;
+  color: white;
+}
+
+.modal-buttons button:last-child:hover {
+  background-color: #c9302c;
 }
