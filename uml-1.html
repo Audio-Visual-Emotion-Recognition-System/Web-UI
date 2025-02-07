@@ -1,0 +1,33 @@
+@startuml
+title Audio-Visual Emotion Recognition System (Class Diagram)
+
+class WebApp {
+- EmotionUI: UI Component
+- EmotionHistory: list<string>
+  + displayEmotion()
+  + connectToDevice()
+  + getHistoricalData()
+  }
+
+  class JetsonAI {
+  - videoStream: MediaStream
+  - audioStream: AudioStream
+  + processVideo()
+  + processAudio()
+  + fuseData()
+  + sendResult()
+  }
+
+  class CameraModule {
+  + captureFrame(): Frame
+  }
+
+  class Microphone {
+  + captureAudio(): Audio
+  }
+
+  WebApp --> JetsonAI : Connect via WebSockets/REST API
+  JetsonAI --> CameraModule : Video Input
+  JetsonAI --> Microphone : Audio Input
+
+  @enduml
