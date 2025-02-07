@@ -47,7 +47,7 @@ const Waveform: React.FC<WaveformProps> = ({ active }) => {
     }, []);
 
     useEffect(() => {
-        let interval: NodeJS.Timer | undefined;
+        let interval: ReturnType<typeof setInterval> | undefined;
 
         if (active) {
             interval = setInterval(() => {
