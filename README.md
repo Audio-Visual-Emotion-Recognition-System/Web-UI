@@ -2,6 +2,17 @@
 
 This repository contains the **Web-UI** component for the Audio-Visual Emotion Recognition System. It is built using **React**, **TypeScript**, and **Vite**, providing a fast and modern development environment. The Web-UI serves as the frontend interface for interacting with the system.
 
+## UML Diagrams
+
+### 1. Class Diagram (High-Level System)
+![Class Diagram](./src/assets/Class%20Diagram%20(High-Level%20System)%20.png)
+
+### 2. Deployment Diagram for Emotion Recognition
+![Deployment Diagram](./src/assets/Deployment%20Diagram%20for%20Emotion%20Recognition.png)
+
+### 3. Sequence Diagram (Emotion Detection Flow)
+![Sequence Diagram](./src/assets/Sequence%20Diagram%20(Emotion%20Detection%20Flow)%20.png)
+
 ---
 
 ## Features
