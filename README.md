@@ -1,3 +1,10 @@
+# 📊 AI/ML Integration for Emotion Recognition System
+
+## 🎯 Objective
+Enhance the **Emotion Recognition System** with AI/ML capabilities to:
+- Train custom emotion detection models.
+- Analyze datasets for improved accuracy.
+- Run real-time predictions using trained models.
 ## 🛠️ Core Features
 
 | **Feature**                 | **Description**                                                                                  | **Priority** |
