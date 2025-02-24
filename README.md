@@ -1,4 +1,10 @@
-# Web-UI: Audio-Visual Emotion Recognition System
+# 📊 AI/ML Integration for Emotion Recognition System
+
+## 🎯 Objective
+Enhance the **Emotion Recognition System** with AI/ML capabilities to:
+- Train custom emotion detection models.
+- Analyze datasets for improved accuracy.
+- Run real-time predictions using trained models.
 
 This repository contains the **Web-UI** component for the Audio-Visual Emotion Recognition System. It is built using **React**, **TypeScript**, and **Vite**, providing a fast and modern development environment. The Web-UI serves as the frontend interface for interacting with the system.
 
