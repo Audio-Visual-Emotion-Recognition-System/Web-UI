@@ -1,7 +1,8 @@
 import React from 'react';
-import {BrowserRouter as Router, Link, Route, Routes} from 'react-router-dom';
+import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
 import AppWithJetson from './AppWithJetson';
 import AppWithoutJetson from './AppWithoutJetson';
+import RealTimeDetection from './RealTimeDetection';
 import './App.css';
 
 const App: React.FC = () => {
@@ -15,6 +16,7 @@ const App: React.FC = () => {
                             <li><Link to="/">Home</Link></li>
                             <li><Link to="/with-jetson">With Jetson AI</Link></li>
                             <li><Link to="/without-jetson">Without Jetson AI</Link></li>
+                            <li><Link to="/real-time-detection">Real-Time Detection</Link></li>
                             <li><Link to="/project-breakdown">Project Breakdown</Link></li>
                             <li><Link to="/authors">Authors</Link></li>
                         </ul>
@@ -30,11 +32,13 @@ const App: React.FC = () => {
                                 <div className="button-group">
                                     <Link to="/with-jetson" className="button">With Jetson AI</Link>
                                     <Link to="/without-jetson" className="button">Without Jetson AI</Link>
+                                    <Link to="/real-time-detection" className="button">Real-Time Detection</Link>
                                 </div>
                             </div>
                         } />
                         <Route path="/with-jetson" element={<AppWithJetson />} />
                         <Route path="/without-jetson" element={<AppWithoutJetson />} />
+                        <Route path="/real-time-detection" element={<RealTimeDetection />} />
                         <Route path="/project-breakdown" element={<ProjectBreakdown />} />
                         <Route path="/authors" element={<Authors />} />
                     </Routes>
