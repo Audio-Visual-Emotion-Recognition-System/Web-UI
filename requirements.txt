@@ -1,0 +1,9 @@
+Flask
+opencv-python
+imutils
+dlib
+keras
+tensorflow
+numpy
+scipy
+h5py
