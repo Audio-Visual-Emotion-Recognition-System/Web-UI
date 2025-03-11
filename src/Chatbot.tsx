@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaPaperclip, FaSmile, FaEllipsisV, FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import { BsChatDots, BsX } from "react-icons/bs";
 import Picker from "emoji-picker-react";
-import "./ChatBot.css"; // ✅ Import ChatBot UI styles
+import "./Chatbot.css"; // ✅ Import ChatBot UI styles
 
 const Chatbot: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,7 @@ const Chatbot: React.FC = () => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [files, setFiles] = useState<File[]>([]);
 
-    const API_KEY = "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";
+    const API_KEY = "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";
     const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     // ✅ Load all JavaScript chatbot scripts dynamically
@@ -26,7 +26,6 @@ const Chatbot: React.FC = () => {
             "/chatBotCustom.js",
             "/chatBotLiveCustom.js",
             "/chatBotValidate.js",
-            "/customSettingsDownload.js",
         ];
 
         scriptFiles.forEach((file) => {
