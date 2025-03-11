@@ -1,10 +1,13 @@
-import React from 'react';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-import AppWithJetson from './AppWithJetson';
-import AppWithoutJetson from './AppWithoutJetson';
-import RealTimeDetection from './RealTimeDetection';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import AppWithJetson from "./AppWithJetson";
+import AppWithoutJetson from "./AppWithoutJetson";
+import RealTimeDetection from "./RealTimeDetection";
+import Chatbot from "./Chatbot"; // ✅ Import Chatbot
+import "./App.css";
 
+
+// ✅ Main App Component
 const App: React.FC = () => {
     return (
         <Router>
@@ -44,6 +47,11 @@ const App: React.FC = () => {
                     </Routes>
                 </main>
 
+                {/* ✅ Add Chatbot Component */}
+                <div className="chatbot-wrapper">
+                    <Chatbot />
+                </div>
+
                 <footer className="footer">
                     <p>&copy; 2025 Audio-Visual Emotion Recognition System. All rights reserved.</p>
                 </footer>
@@ -52,6 +60,7 @@ const App: React.FC = () => {
     );
 };
 
+// ✅ Project Breakdown Component
 const ProjectBreakdown: React.FC = () => (
     <div className="project-breakdown">
         <h2>Project Breakdown</h2>
@@ -81,6 +90,7 @@ const ProjectBreakdown: React.FC = () => (
     </div>
 );
 
+// ✅ Authors Component
 const Authors: React.FC = () => (
     <div className="authors">
         <h2>Authors</h2>
